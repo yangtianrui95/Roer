@@ -72,7 +72,7 @@ public class BasicNetwork implements Network {
             Map<String, String> responseHeaders = Collections.emptyMap();
             try {
                 // Gather headers.
-                Map<String, String> headers = new HashMap<String, String>();
+                Map<String, String> headers = new HashMap<>();
                 // 添加缓存头部, 模拟浏览器行为
                 addCacheHeaders(headers, request.getCacheEntry());
                 // 实际由HttpStack进行处理
@@ -108,6 +108,7 @@ public class BasicNetwork implements Network {
                 // Handle moved resources
                 if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY || statusCode == HttpStatus.SC_MOVED_TEMPORARILY) {
                     String newUrl = responseHeaders.get("Location");
+                    // 设置重定向URL,稍后放到网络请求队列中
                     request.setRedirectUrl(newUrl);
                 }
 

@@ -114,6 +114,7 @@ public class NetworkDispatcher implements Runnable {
                 // Write to cache if applicable.
                 // TODO: Only update cache metadata instead of entire record for 304s.
                 if (request.shouldCache() && response.cacheEntry != null) {
+                    // fixme(tianrui) ? put all Cache??? cache only for static resource from service...
                     mCache.put(request.getCacheKey(), response.cacheEntry);
                 }
 

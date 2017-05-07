@@ -17,6 +17,21 @@ public class NoCache implements CachePolicy {
     }
 
     @Override
+    public void invalidate(String key, boolean fullExpire) {
+
+    }
+
+    @Override
+    public void remove(String key) {
+
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
     public void put(String cacheKey, Entry cacheEntry) {
 
     }

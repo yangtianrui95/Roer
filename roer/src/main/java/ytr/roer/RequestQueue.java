@@ -1,8 +1,10 @@
 package ytr.roer;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
@@ -12,6 +14,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import ytr.roer.policy.CachePolicy;
 import ytr.roer.policy.DeliveryPolicy;
+import ytr.roer.policy.impl.DiskBasedCache;
 import ytr.roer.policy.impl.ExecutorDelivery;
 import ytr.roer.policy.impl.NoCache;
 
@@ -31,8 +34,9 @@ public class RequestQueue {
 
 
     public static RequestQueue newRequestQueue() {
-        final Network defaultNetwork = new BasicNetwork(new HurlStack());
-        final CachePolicy defaultCache = new NoCache();
+        final Network defaultNetwork = new BasicNetwork(new OkHttpStack());
+        L.d("Cache path: " + Environment.getExternalStorageState() +" /roer");
+        final CachePolicy defaultCache = new DiskBasedCache(new File(Environment.getExternalStorageDirectory(), "/roer"));
         final DeliveryPolicy defaultDeliver = new ExecutorDelivery(new Handler(Looper.getMainLooper()));
         return new RequestQueue(defaultNetwork, defaultCache, defaultDeliver);
     }

@@ -31,6 +31,7 @@ public class HttpHeaderParser {
 
     /**
      * Extracts a  from a {@link NetworkResponse}.
+     * use this method to transfer response to cacheEntry.
      *
      * @param response The network response to parse headers from
      * @return a cache entry for the given response, or null if the response is not cacheable.

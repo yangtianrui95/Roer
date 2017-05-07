@@ -1,8 +1,5 @@
 package ytr.roer;
 
-/**
- * Created by tianrui on 17-4-29.
- */
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -28,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
+ * Created by tianrui on 17-4-29.
  * An {@link HttpStack} based on {@link HttpURLConnection}.
  */
 public class HurlStack implements HttpStack {

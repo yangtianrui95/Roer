@@ -13,14 +13,16 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTvText;
 
+    //http://blog.csdn.net/u010687392/article/details/46906657
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTvText = (TextView) findViewById(R.id.id_tv_text);
 
-        RequestQueue requestQueue = RequestQueue.newRequestQueue();
-        requestQueue.add(new StringRequest("http://120.24.167.150/string", new Response.Listener<String>() {
+        final RequestQueue requestQueue = RequestQueue.newRequestQueue();
+        requestQueue.add(new StringRequest("http://120.24.167.150/static", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 mTvText.setText(response);
