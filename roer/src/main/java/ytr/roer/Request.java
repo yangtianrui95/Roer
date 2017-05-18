@@ -115,7 +115,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     /**
      * Set a tag on this request. Can be used to cancel all requests with this
-     * tag by {@link RequestQueue#cancelAll(Object)}.
      *
      * @return This Request object to allow for chaining.
      */
@@ -132,9 +131,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         return mTag;
     }
 
-    /**
-     * @return this request's {@link com.android.roer.Response.ErrorListener}.
-     */
     public Response.ErrorListener getErrorListener() {
         return mErrorListener;
     }

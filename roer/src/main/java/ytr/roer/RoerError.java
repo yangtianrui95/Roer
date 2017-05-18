@@ -8,6 +8,15 @@ public class RoerError extends Exception {
 
     }
 
+    public RoerError(Error e) {
+
+    }
+
+    public RoerError(NetworkResponse response) {
+
+    }
+
+
     public void setNetworkTimeMs(long l) {
 
     }

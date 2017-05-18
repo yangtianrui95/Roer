@@ -14,4 +14,8 @@ public class L {
             Log.d(TAG, msg);
         }
     }
+
+    public static void e(String s, int length, String url) {
+
+    }
 }
