@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ytr.roer.OkHttpStack;
 import ytr.roer.Roer;
+import ytr.roer.RoerConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         // perform actual network request.
 //        Roer.getInstance().addRequest(request);
+
+        RoerConfiguration.RoerConfigurationBuilder builder = new RoerConfiguration.RoerConfigurationBuilder();
+        RoerConfiguration configuration = builder.networkPoolSize(1).httpStack(new OkHttpStack()).build();
+
+        Roer.getInstance().adjustConfiguration(configuration);
 
         Roer.getInstance().bind("http://120.24.167.150/jpeg", mIvImage);
     }

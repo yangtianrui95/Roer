@@ -14,9 +14,7 @@ import ytr.roer.image.ImageRequest;
  */
 public class Roer {
     private volatile static Roer sInstance;
-
-    // fixme test mock
-    private RoerConfiguration mConfiguration = new RoerConfiguration();
+    private RoerConfiguration mConfiguration;
 
     // use this requestQueue to perform all network request, both image and other.
     private RequestQueue mRequestQueue;
@@ -35,11 +33,37 @@ public class Roer {
     }
 
     private Roer() {
-        mRequestQueue = RequestQueue.newRequestQueue();
+
+    }
+
+
+
+    public void adjustConfiguration(RoerConfiguration configuration) {
+        if (configuration == null) {
+            throw new IllegalArgumentException("configuration is null!");
+        }
+        if (mConfiguration == null) {
+            mConfiguration = configuration;
+        }
+        mRequestQueue = RequestQueue.newRequestQueue(configuration.getNetworkPoolSize(), configuration.getHttpStack());
         mImageLoader = new ImageLoader(mRequestQueue, new BitmapCache());
     }
 
+    public boolean isInit() {
+        return mConfiguration != null;
+    }
+
+    /**
+     * todo if you call #adjustConfiguration() to adjust configuration, must call this method to stop in-flight request.
+     * Ensuring consistency of requests is necessary.
+     */
+    public void stop() {
+
+    }
+
+
     public void addRequest(final Request<?> request) {
+        checkConfiguration();
         mRequestQueue.add(request);
     }
 
@@ -49,6 +73,9 @@ public class Roer {
     }
 
 
+    /**
+     * bind a image from remoteUrl.
+     */
     public void bind(String requestUrl, ImageView iv) {
         bind(requestUrl, iv, 0, 0, ImageView.ScaleType.CENTER_INSIDE);
     }
@@ -61,6 +88,7 @@ public class Roer {
      * @param iv         widget for display image.
      */
     public void bind(String requestUrl, ImageView iv, int maxWidth, int maxHeight, ImageView.ScaleType scaleType) {
+        checkConfiguration();
         final ImageLoader.ImageListener imageListener = getImageListener(iv, mConfiguration.getDefaultImageResId(), mConfiguration.getDefaultErrorResId());
         mImageLoader.get(requestUrl, imageListener, maxWidth, maxHeight, scaleType);
     }
@@ -95,4 +123,11 @@ public class Roer {
             }
         };
     }
+
+    private void checkConfiguration(){
+        if (mConfiguration == null){
+            throw new IllegalStateException("must initialize configuration before use it.");
+        }
+    }
+
 }

@@ -24,24 +24,35 @@ import ytr.roer.policy.impl.NoCache;
 public class RequestQueue {
 
     // 2N+1
-    private final int DEFAULT_THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2 + 1;
+    private static final int DEFAULT_THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors() * 2 + 1;
 
-    private final Executor mCacheExecutor = Executors.newSingleThreadExecutor();
-    private final Executor mNetwortExecutor = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+    private final Executor mCacheExecutor;
+    private final Executor mNetwortExecutor;
 
     private final BlockingQueue<Request<?>> mNetworkQueue = new PriorityBlockingQueue<>();
     private final BlockingQueue<Request<?>> mCacheQueue = new PriorityBlockingQueue<>();
 
 
     public static RequestQueue newRequestQueue() {
-        final Network defaultNetwork = new BasicNetwork(new OkHttpStack());
-        L.d("Cache path: " + Environment.getExternalStorageState() +" /roer");
-        final CachePolicy defaultCache = new DiskBasedCache(new File(Environment.getExternalStorageDirectory(), "/roer"));
-        final DeliveryPolicy defaultDeliver = new ExecutorDelivery(new Handler(Looper.getMainLooper()));
-        return new RequestQueue(defaultNetwork, defaultCache, defaultDeliver);
+        return newRequestQueue(DEFAULT_THREAD_POOL_SIZE, new OkHttpStack());
     }
 
-    public RequestQueue(Network network, CachePolicy cache, DeliveryPolicy deliver) {
+    public static RequestQueue newRequestQueue(int threadpoolSize, HttpStack httpStack) {
+        if (threadpoolSize <= 0 || httpStack == null) {
+            throw new IllegalArgumentException("Argument is invalid.");
+        }
+        final Network defaultNetwork = new BasicNetwork(httpStack);
+        L.d("Cache path: " + Environment.getExternalStorageState() + " /roer");
+        final CachePolicy defaultCache = new DiskBasedCache(new File(Environment.getExternalStorageDirectory(), "/roer"));
+        final DeliveryPolicy defaultDeliver = new ExecutorDelivery(new Handler(Looper.getMainLooper()));
+        return new RequestQueue(defaultNetwork, defaultCache, defaultDeliver, threadpoolSize);
+    }
+
+    public RequestQueue(Network network, CachePolicy cache, DeliveryPolicy deliver, int threadPoolSize) {
+        // adjustConfiguration thread pool.
+        mCacheExecutor = Executors.newSingleThreadExecutor();
+        mNetwortExecutor = Executors.newFixedThreadPool(threadPoolSize);
+
         // put networkDispatcher into threadPool.
         for (int i = 0; i < DEFAULT_THREAD_POOL_SIZE; i++) {
             mNetwortExecutor.execute(new NetworkDispatcher(mNetworkQueue, network, cache, deliver));
@@ -58,7 +69,7 @@ public class RequestQueue {
     }
 
 
-    public void add(Request<?> request){
+    public void add(Request<?> request) {
         // Tag the request as belonging to this queue and add it to the set of current requests.
         request.setRequestQueue(this);
 //        synchronized (mCurrentRequests) {
