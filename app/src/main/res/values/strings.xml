@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">graduation</string>
+    <string name="title_activity_main">Roer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="roer_framework">Roer Framework</string>
+    <string name="yangtianrui_com">roer@yangtianrui.com</string>
 </resources>
