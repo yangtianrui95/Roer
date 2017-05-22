@@ -1,21 +1,29 @@
 package hebust.graduation.fragment;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import hebust.graduation.BaseFragment;
 import hebust.graduation.R;
+import hebust.graduation.adapter.FeedAdapter;
+import hebust.graduation.beans.Feed;
 import hebust.graduation.contract.FeedContract;
+import hebust.graduation.data.RemoteFeedDataSource;
+import hebust.graduation.presenter.FeedPresenter;
 
 public class FeedFragment extends BaseFragment implements FeedContract.View {
 
+    private static final String TAG = "feed_frag";
 
     @BindView(R.id.id_rv_list)
     RecyclerView mRvList;
@@ -24,7 +32,11 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     SwipeRefreshLayout mSrlRefresh;
 
 
+    private FeedContract.Presenter mPresenter;
+
+
     public FeedFragment() {
+        mPresenter = new FeedPresenter(new RemoteFeedDataSource(), this);
     }
 
     public static FeedFragment newInstance() {
@@ -40,17 +52,44 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
+        mPresenter.start();
+        mSrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.refresh();
+            }
+        });
     }
 
-
-    @Override
-    public void showFeedList() {
-
-    }
 
     @Override
     public void setPresenter(FeedContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showFeedList(List<Feed.FeedItem> feedItems) {
+        Log.d(TAG, "showFeedList: " + feedItems);
+        if (feedItems.isEmpty()) {
+            return;
+        }
+        mRvList.setAdapter(new FeedAdapter(feedItems));
+        mRvList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.top = 10;
+            }
+        });
+    }
+
+    @Override
+    public void showErrorPage() {
+
+    }
+
+    @Override
+    public void showLoading() {
 
     }
 }

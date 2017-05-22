@@ -1,4 +1,4 @@
-package hebust.graduation;
+package hebust.graduation.fragment;
 
 import android.support.v4.app.Fragment;
 

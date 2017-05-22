@@ -474,9 +474,11 @@ public class ImageLoader {
      * @param scaleType The scaleType of the imageView.
      */
     public static String getCacheKey(String url, int maxWidth, int maxHeight, ImageView.ScaleType scaleType) {
-        return new StringBuilder(url.length() + 12).append("#W").append(maxWidth)
-                .append("#H").append(maxHeight).append("#S").append(scaleType.ordinal()).append(url)
-                .toString();
+        if (url == null){
+            return "";
+        }
+        return "#W" + maxWidth +
+                "#H" + maxHeight + "#S" + scaleType.ordinal() + url;
     }
 
 
