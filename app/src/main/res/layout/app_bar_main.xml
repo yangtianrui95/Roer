@@ -26,7 +26,8 @@
             android:id="@+id/id_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/colorAccent"/>
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabMode="scrollable"/>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main"/>

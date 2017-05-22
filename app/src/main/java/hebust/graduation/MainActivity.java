@@ -1,28 +1,43 @@
 package hebust.graduation;
 
-import android.app.TabActivity;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hebust.graduation.contract.MainViewContract;
+import hebust.graduation.data.ChannelRepository;
+import hebust.graduation.data.LocalChannelDataSource;
+import hebust.graduation.data.RemoteChannelDataSource;
+import hebust.graduation.fragment.FeedFragment;
+import hebust.graduation.presenter.MainViewPresenter;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainViewContract.View {
+
+    private static final String TAG = "main_act";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -42,14 +57,20 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.id_tab)
     TabLayout mTabLayout;
 
+    private MainViewPresenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         initView();
+
+        mPresenter = new MainViewPresenter(new ChannelRepository(new LocalChannelDataSource(),
+                new RemoteChannelDataSource()), this);
+
+        mPresenter.start();
     }
 
     private void initView() {
@@ -63,9 +84,9 @@ public class MainActivity extends AppCompatActivity
 
 
     @OnClick(R.id.fab)
-    void onFabClick(View view){
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    void onFabClick(View view) {
+
+        mPresenter.refreshFeed();
     }
 
     @Override
@@ -120,5 +141,77 @@ public class MainActivity extends AppCompatActivity
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void showTabs(List<String> channels) {
+
+        Log.d(TAG, "showTabs: channels=" + channels);
+
+        if (channels == null || channels.isEmpty()) {
+            return;
+        }
+
+        final List<Fragment> fragmentList = new ArrayList<>();
+        final List<String> tabs = new ArrayList<>();
+
+        for (String s : channels) {
+            fragmentList.add(FeedFragment.newInstance());
+            tabs.add(Constants.getChannelNameById(s));
+        }
+
+        mVpContent.removeAllViews();
+
+        // setup adapter.
+        mVpContent.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fragmentList.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return tabs.get(position);
+            }
+        });
+
+        mTabLayout.setupWithViewPager(mVpContent);
+
+
+    }
+
+    @Override
+    public void showFeedDetail() {
+
+    }
+
+    @Override
+    public void showLoading() {
+        // rotate fab.
+        final AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.fab_click);
+        set.setInterpolator(new AccelerateInterpolator());
+        set.setTarget(mFab);
+        set.start();
+
+        //change loading status.
+    }
+
+    @Override
+    public void showErrorPage(boolean hideTabs) {
+
+    }
+
+    @Override
+    public void onPageRefresh() {
+    }
+
+    @Override
+    public void setPresenter(MainViewContract.Presenter presenter) {
+
     }
 }

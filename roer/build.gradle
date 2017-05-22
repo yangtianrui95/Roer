@@ -32,4 +32,6 @@ dependencies {
 
     // okhttp
     compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    // fastJson
+    compile 'com.alibaba:fastjson:1.2.32'
 }
