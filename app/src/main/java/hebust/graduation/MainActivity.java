@@ -125,13 +125,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_feed) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            // TODO: 17-5-24 展示图片性能
         } else if (id == R.id.nav_slideshow) {
-
+            // todo 展示缓存性能
+            MediaActivity.startActivity(this);
         } else if (id == R.id.nav_manage) {
+            // todo header 分析
 
         } else if (id == R.id.nav_share) {
 

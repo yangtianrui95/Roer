@@ -62,7 +62,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     private Response.ErrorListener mErrorListener;
 
     /** Sequence number of this request, used to enforce FIFO ordering. */
-    private Integer mSequence;
+    private Integer mSequence =0; // FIXME: 17-5-24 
 
     /** The request queue this request is associated with. */
     private RequestQueue mRequestQueue;
