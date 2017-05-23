@@ -16,6 +16,7 @@ public class FeedContract {
 
         void showLoading();
 
+        void refresh(List<Feed.FeedItem> feedItems);
     }
 
     public interface Presenter extends BasePresenter {

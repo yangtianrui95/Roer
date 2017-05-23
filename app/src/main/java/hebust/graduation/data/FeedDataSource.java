@@ -12,5 +12,5 @@ public interface FeedDataSource {
 
     void getFeeds(LoadFeedsCallback callback);
 
-    void refreshFeeds();
+    void refreshFeeds(LoadFeedsCallback callback);
 }

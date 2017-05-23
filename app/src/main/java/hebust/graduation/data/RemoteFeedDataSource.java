@@ -1,6 +1,7 @@
 package hebust.graduation.data;
 
 import hebust.graduation.Constants;
+import hebust.graduation.L;
 import hebust.graduation.beans.Feed;
 import ytr.roer.FastJsonRequest;
 import ytr.roer.Request;
@@ -20,17 +21,19 @@ public class RemoteFeedDataSource implements FeedDataSource {
             @Override
             public void onErrorResponse(RoerError error) {
                 callback.onDataNotAvailable();
+                L.d("error in network");
             }
         }, new Response.Listener<Feed>() {
             @Override
             public void onResponse(Feed response) {
+                L.d("success in network");
                 callback.onFeedsLoaded(response);
             }
         }, Feed.class));
     }
 
     @Override
-    public void refreshFeeds() {
-        // TODO: 17-5-23  ????
+    public void refreshFeeds(LoadFeedsCallback callback) {
+        getFeeds(callback);
     }
 }

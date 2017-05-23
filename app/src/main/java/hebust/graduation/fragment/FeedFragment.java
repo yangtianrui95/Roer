@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hebust.graduation.App;
 import hebust.graduation.R;
 import hebust.graduation.adapter.FeedAdapter;
 import hebust.graduation.beans.Feed;
@@ -54,6 +56,7 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         mPresenter.start();
+         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -85,11 +88,32 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
 
     @Override
     public void showErrorPage() {
-
+        Toast.makeText(getContext(), "网络错误", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showLoading() {
+
+    }
+
+    @Override
+    public void refresh(List<Feed.FeedItem> feedItems) {
+        if (feedItems == null || feedItems.isEmpty()) {
+            return;
+        }
+        final RecyclerView.Adapter adapter = mRvList.getAdapter();
+        if (adapter == null || !(adapter instanceof FeedAdapter)) {
+            return;
+        }
+
+        ((FeedAdapter) adapter).refreshData(feedItems);
+
+        App.getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSrlRefresh.setRefreshing(false);
+            }
+        }, 1000);
 
     }
 }

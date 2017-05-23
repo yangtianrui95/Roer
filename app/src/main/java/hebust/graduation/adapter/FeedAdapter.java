@@ -16,7 +16,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int NORMAL = 0x01;
     }
 
-    private List<Feed.FeedItem> mFeedItems;
+    private final List<Feed.FeedItem> mFeedItems;
 
     public FeedAdapter(@NonNull List<Feed.FeedItem> feedItems) {
         mFeedItems = feedItems;
@@ -46,6 +46,15 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         return ViewType.NORMAL;
+    }
+
+    public void refreshData(List<Feed.FeedItem> list) {
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        mFeedItems.clear();
+        mFeedItems.addAll(list);
+        notifyDataSetChanged();
     }
 
     private class CommonViewHolder extends RecyclerView.ViewHolder {
