@@ -49,7 +49,7 @@ public class FeedItemView extends RelativeLayout implements FeedView {
         if (item == null) {
             return;
         }
-        mTvSource.setText(item.getSource());
+        //mTvSource.setText(item.getSource());
         mTvTitle.setText(item.getTitle());
         Roer.getInstance().bind(item.getPic(), mIvPic);
     }

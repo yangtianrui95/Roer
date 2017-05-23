@@ -10,4 +10,5 @@
     <string name="yangtianrui_com">roer@yangtianrui.com</string>
 
     <string name="linear_layout_manager">android.support.v7.widget.LinearLayoutManager</string>
+    <string name="feed_source">来源: 今日头条</string>
 </resources>
