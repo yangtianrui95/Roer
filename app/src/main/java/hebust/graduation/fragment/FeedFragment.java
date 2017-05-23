@@ -33,16 +33,34 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     @BindView(R.id.id_srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
 
-
     private FeedContract.Presenter mPresenter;
+    private String mChannel;
+
+    private interface ExtraKey {
+        String CHANNEL_KEY = "channel_key";
+    }
 
 
     public FeedFragment() {
-        mPresenter = new FeedPresenter(new RemoteFeedDataSource(), this);
+
     }
 
-    public static FeedFragment newInstance() {
-        return new FeedFragment();
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final Bundle bundle = getArguments();
+        if (bundle != null){
+            mChannel = bundle.getString(ExtraKey.CHANNEL_KEY);
+        }
+        mPresenter = new FeedPresenter(new RemoteFeedDataSource(mChannel), this);
+    }
+
+    public static FeedFragment newInstance(String channel) {
+        final FeedFragment feedFragment = new FeedFragment();
+        final Bundle bundle = new Bundle();
+        bundle.putString(ExtraKey.CHANNEL_KEY, channel);
+        feedFragment.setArguments(bundle);
+        return feedFragment;
     }
 
     @Nullable
@@ -56,7 +74,7 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         mPresenter.start();
-         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
         final List<String> tabs = new ArrayList<>();
 
         for (String s : channels) {
-            fragmentList.add(FeedFragment.newInstance());
+            fragmentList.add(FeedFragment.newInstance(s));
             tabs.add(Constants.getChannelNameById(s));
         }
 
