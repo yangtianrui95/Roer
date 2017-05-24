@@ -16,6 +16,7 @@ public class FeedPresenter implements FeedContract.Presenter {
 
     @Override
     public void refresh() {
+        mView.showLoading();
         mFeedDataSource.refreshFeeds(new FeedDataSource.LoadFeedsCallback() {
             @Override
             public void onFeedsLoaded(Feed feed) {

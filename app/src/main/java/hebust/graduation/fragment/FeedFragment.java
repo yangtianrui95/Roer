@@ -1,20 +1,25 @@
 package hebust.graduation.fragment;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hebust.graduation.App;
 import hebust.graduation.R;
 import hebust.graduation.adapter.FeedAdapter;
@@ -32,6 +37,9 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
 
     @BindView(R.id.id_srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
+
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
     private FeedContract.Presenter mPresenter;
     private String mChannel;
@@ -104,6 +112,11 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
         });
     }
 
+    @OnClick(R.id.fab)
+    void onFabClick(View view) {
+        mPresenter.refresh();
+    }
+
     @Override
     public void showErrorPage() {
         Toast.makeText(getContext(), "网络错误", Toast.LENGTH_SHORT).show();
@@ -111,7 +124,12 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
 
     @Override
     public void showLoading() {
-
+        mSrlRefresh.setRefreshing(true);
+        // rotate fab.
+        final AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this.getContext(), R.animator.fab_click);
+        set.setInterpolator(new AccelerateInterpolator());
+        set.setTarget(mFab);
+        set.start();
     }
 
     @Override
@@ -131,7 +149,7 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
             public void run() {
                 mSrlRefresh.setRefreshing(false);
             }
-        }, 1000);
+        }, 2000);
 
     }
 }

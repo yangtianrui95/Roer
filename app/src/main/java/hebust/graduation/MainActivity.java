@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @BindView(R.id.fab)
-    FloatingActionButton mFab;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -82,12 +80,6 @@ public class MainActivity extends AppCompatActivity
         mNavMenu.setNavigationItemSelectedListener(this);
     }
 
-
-    @OnClick(R.id.fab)
-    void onFabClick(View view) {
-
-        mPresenter.refreshFeed();
-    }
 
     @Override
     public void onBackPressed() {
@@ -194,12 +186,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showLoading() {
-        // rotate fab.
-        final AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.fab_click);
-        set.setInterpolator(new AccelerateInterpolator());
-        set.setTarget(mFab);
-        set.start();
-
         //change loading status.
     }
 
