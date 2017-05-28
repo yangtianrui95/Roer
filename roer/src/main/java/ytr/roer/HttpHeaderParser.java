@@ -59,6 +59,8 @@ public class HttpHeaderParser {
             serverDate = parseDateAsEpoch(headerValue);
         }
 
+
+        //parse Cache-Control
         headerValue = headers.get("Cache-Control");
         if (headerValue != null) {
             hasCacheControl = true;
@@ -72,6 +74,8 @@ public class HttpHeaderParser {
                         maxAge = Long.parseLong(token.substring(8));
                     } catch (Exception e) {
                     }
+                    // such for squid cache server. this field told ue the cache server is need to fetch
+                    // data by background. we can use it before timeout.
                 } else if (token.startsWith("stale-while-revalidate=")) {
                     try {
                         staleWhileRevalidate = Long.parseLong(token.substring(23));
@@ -103,6 +107,7 @@ public class HttpHeaderParser {
             finalExpire = mustRevalidate
                     ? softExpire
                     : softExpire + staleWhileRevalidate * 1000;
+            // for Http 1.0
         } else if (serverDate > 0 && serverExpires >= serverDate) {
             // Default semantic for Expire header in HTTP specification is softExpire.
             softExpire = now + (serverExpires - serverDate);

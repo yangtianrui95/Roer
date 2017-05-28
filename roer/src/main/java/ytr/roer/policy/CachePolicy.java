@@ -92,6 +92,7 @@ public interface CachePolicy {
         /**
          * True if the entry is expired.
          */
+        // 用来判断缓存是否失效
         public boolean isExpired() {
             return this.ttl < System.currentTimeMillis();
         }
@@ -99,6 +100,7 @@ public interface CachePolicy {
         /**
          * True if a refresh is needed from the original data source.
          */
+        // 服务器端需要刷新
         public boolean refreshNeeded() {
             return this.softTtl < System.currentTimeMillis();
         }
