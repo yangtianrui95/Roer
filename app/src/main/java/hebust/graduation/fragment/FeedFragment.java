@@ -12,13 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hebust.graduation.App;
 import hebust.graduation.R;
@@ -38,6 +38,9 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     @BindView(R.id.id_srl_refresh)
     SwipeRefreshLayout mSrlRefresh;
 
+    @BindView(R.id.id_progress_bar)
+    ProgressBar mProgressBar;
+
     @BindView(R.id.fab)
     FloatingActionButton mFab;
 
@@ -46,6 +49,12 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
 
     private interface ExtraKey {
         String CHANNEL_KEY = "channel_key";
+
+    }
+
+    private interface ViewStatus {
+        int REFRESHING = 0x01;
+        int REFRESH_SUCCESS = 0x02;
     }
 
 
@@ -57,7 +66,7 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             mChannel = bundle.getString(ExtraKey.CHANNEL_KEY);
         }
         mPresenter = new FeedPresenter(new RemoteFeedDataSource(mChannel), this);
@@ -80,7 +89,10 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+    }
+
+    @Override
+    protected void initData() {
         mPresenter.start();
         mSrlRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mSrlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -110,6 +122,7 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
                 outRect.top = 10;
             }
         });
+        adjustStatus(ViewStatus.REFRESH_SUCCESS);
     }
 
     @OnClick(R.id.fab)
@@ -150,6 +163,20 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
                 mSrlRefresh.setRefreshing(false);
             }
         }, 2000);
+        adjustStatus(ViewStatus.REFRESH_SUCCESS);
+    }
 
+    private void adjustStatus(int status) {
+        switch (status) {
+            case ViewStatus.REFRESH_SUCCESS:
+                mSrlRefresh.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
+                break;
+            default:
+            case ViewStatus.REFRESHING:
+                mSrlRefresh.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }
