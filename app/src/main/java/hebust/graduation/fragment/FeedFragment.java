@@ -89,6 +89,12 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRvList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.top = 10;
+            }
+        });
     }
 
     @Override
@@ -116,12 +122,7 @@ public class FeedFragment extends BaseFragment implements FeedContract.View {
             return;
         }
         mRvList.setAdapter(new FeedAdapter(feedItems));
-        mRvList.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.top = 10;
-            }
-        });
+
         adjustStatus(ViewStatus.REFRESH_SUCCESS);
     }
 
