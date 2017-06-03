@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
             MediaActivity.startActivity(this);
         } else if (id == R.id.nav_manage) {
             // todo header 分析
-
+            FileLoadActivity.startActivity(this);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

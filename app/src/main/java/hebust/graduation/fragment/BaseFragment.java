@@ -62,8 +62,4 @@ public abstract class BaseFragment extends Fragment {
     }
 
     abstract protected void initData();
-
-    protected void dismissLoading() {
-
-    }
 }
