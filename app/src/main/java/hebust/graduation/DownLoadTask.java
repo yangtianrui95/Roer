@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -38,7 +39,8 @@ public class DownLoadTask extends Thread {
         FileDownloadThread[] threads = new FileDownloadThread[threadNum];
         try {
             URL url = new URL(downloadUrl);
-            URLConnection conn = url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("HEAD");
             // 读取下载文件总大小
             int fileSize = conn.getContentLength();
             if (fileSize <= 0) {
