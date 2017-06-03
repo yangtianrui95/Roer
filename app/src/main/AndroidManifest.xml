@@ -32,6 +32,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".FileLoadActivity">
         </activity>
+        <activity android:name=".GalleryActivity">
+        </activity>
     </application>
 
 </manifest>

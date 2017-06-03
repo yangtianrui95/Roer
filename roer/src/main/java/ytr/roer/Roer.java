@@ -1,5 +1,6 @@
 package ytr.roer;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import ytr.roer.image.BitmapCache;
@@ -89,6 +90,7 @@ public class Roer {
      */
     public void bind(String requestUrl, ImageView iv, int maxWidth, int maxHeight, ImageView.ScaleType scaleType) {
         checkConfiguration();
+        iv.setTag(requestUrl);
         final ImageLoader.ImageListener imageListener = getImageListener(iv, mConfiguration.getDefaultImageResId(), mConfiguration.getDefaultErrorResId());
         mImageLoader.get(requestUrl, imageListener, maxWidth, maxHeight, scaleType);
     }
@@ -116,7 +118,10 @@ public class Roer {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 if (response.getBitmap() != null) {
-                    view.setImageBitmap(response.getBitmap());
+                    if (TextUtils.equals(response.getRequestUrl(), ((String) view.getTag()))){
+                        L.e("Tag is difference, cancel request");
+                        view.setImageBitmap(response.getBitmap());
+                    }
                 } else if (defaultImageResId != 0) {
                     view.setImageResource(defaultImageResId);
                 }

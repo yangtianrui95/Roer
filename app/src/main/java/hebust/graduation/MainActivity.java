@@ -1,10 +1,7 @@
 package hebust.graduation;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,15 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import hebust.graduation.contract.MainViewContract;
 import hebust.graduation.data.ChannelRepository;
 import hebust.graduation.data.LocalChannelDataSource;
@@ -120,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_feed) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            // TODO: 17-5-24 展示图片性能
+            //
+            GalleryActivity.startActivity(this);
         } else if (id == R.id.nav_slideshow) {
             // todo 展示缓存性能
             MediaActivity.startActivity(this);

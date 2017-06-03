@@ -27,7 +27,9 @@ public class App extends Application {
 
     private void initRoer() {
         final RoerConfiguration.RoerConfigurationBuilder builder = new RoerConfiguration.RoerConfigurationBuilder();
-        final RoerConfiguration configuration = builder.httpStack(new OkHttpStack()).build();
+        final RoerConfiguration configuration = builder.httpStack(new OkHttpStack())
+                .defaultImageResId(R.drawable.img_default).build();
+
         Roer.getInstance().adjustConfiguration(configuration);
     }
 

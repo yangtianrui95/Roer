@@ -18,4 +18,10 @@ public class L {
     public static void e(String s, int length, String url) {
 
     }
+
+    public static void e(String msg) {
+        if (msg != null) {
+            Log.e(TAG, msg);
+        }
+    }
 }

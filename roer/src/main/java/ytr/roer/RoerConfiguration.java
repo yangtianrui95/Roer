@@ -1,6 +1,6 @@
 package ytr.roer;
 
-import android.support.annotation.IdRes;
+import android.support.annotation.DrawableRes;
 
 /**
  * Created by tianrui on 17-5-18.
@@ -102,12 +102,12 @@ public final class RoerConfiguration {
             return this;
         }
 
-        public RoerConfigurationBuilder defaultImageResId(@IdRes int resId) {
+        public RoerConfigurationBuilder defaultImageResId(@DrawableRes int resId) {
             mDefaultImageResId = resId;
             return this;
         }
 
-        public RoerConfigurationBuilder defaultErrorResId(@IdRes int resId) {
+        public RoerConfigurationBuilder defaultErrorResId(@DrawableRes int resId) {
             mDefaultErrorResId = resId;
             return this;
         }
