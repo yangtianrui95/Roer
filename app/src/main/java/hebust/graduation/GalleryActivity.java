@@ -28,7 +28,8 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
         ButterKnife.bind(this);
         setTitle("ImageLoaderTest");
-        mRvList.setAdapter(new GalleryAdapter(Arrays.asList(Constants.IMAGE_URLS)));
+        final List<String> list = Arrays.asList(Constants.IMAGE_URLS);
+        mRvList.setAdapter(new GalleryAdapter(list));
 
         mRvList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override

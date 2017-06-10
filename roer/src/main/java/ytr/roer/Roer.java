@@ -1,11 +1,11 @@
 package ytr.roer;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import ytr.roer.image.BitmapCache;
 import ytr.roer.image.ImageLoader;
-import ytr.roer.image.ImageRequest;
 
 /**
  * Created by tianrui on 17-4-29.
@@ -78,7 +78,8 @@ public class Roer {
      * bind a image from remoteUrl.
      */
     public void bind(String requestUrl, ImageView iv) {
-        bind(requestUrl, iv, 0, 0, ImageView.ScaleType.CENTER_INSIDE);
+        Log.d("img", "bind: width" + iv.getWidth() + " height: " + iv.getHeight());
+        bind(requestUrl, iv, iv.getWidth(), iv.getHeight(), iv.getScaleType());
     }
 
     /**

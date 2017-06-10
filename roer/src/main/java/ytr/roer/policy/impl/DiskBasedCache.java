@@ -2,6 +2,7 @@
 package ytr.roer.policy.impl;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -48,7 +49,7 @@ public class DiskBasedCache implements CachePolicy {
     private static final float HYSTERESIS_FACTOR = 0.9f;
 
     /** Magic number for current version of cache file format. */
-    private static final int CACHE_MAGIC = 0x20150306;
+    private static final int CACHE_MAGIC = 0x20170613;
 
     /**
      * Constructs an instance of the DiskBasedCache at the specified directory.
@@ -223,6 +224,7 @@ public class DiskBasedCache implements CachePolicy {
         // half key hash code and  key size hashcode.
         String localFilename = String.valueOf(key.substring(0, firstHalfLength).hashCode());
         localFilename += String.valueOf(key.substring(firstHalfLength).hashCode());
+        Log.d("tianrui", "getFilenameForKey: " + localFilename);
         return localFilename;
     }
 

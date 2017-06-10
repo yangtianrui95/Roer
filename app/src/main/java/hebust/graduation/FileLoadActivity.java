@@ -25,10 +25,7 @@ import butterknife.ButterKnife;
 public class FileLoadActivity extends AppCompatActivity {
 
 
-    private static final String LINK = "http://211.136.65.150/cache/gdown.baidu.com/data/wisegame" +
-            "/91319a5a1dfae322/baidu_16785426.apk?ich_args2=" +
-            "116-02231207028714_458aa1714111c60e5e1d3533b1cc9d78" +
-            "_10068001_9c886d2ad3c2f7d2933b518939a83798_1041efbbf257fb891bfde54606bdcd17";
+    private static final String LINK = "http://gdown.baidu.com/data/wisegame/91319a5a1dfae322/baidu_16785426.apk";
     public static final int THREAD_NUM = 5;
     public static final String FILE_NAME = "roer.apk";
 

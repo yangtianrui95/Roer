@@ -2,6 +2,7 @@ package ytr.roer.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.widget.ImageView;
 
 import ytr.roer.HttpHeaderParser;
@@ -159,6 +160,7 @@ public class ImageRequest extends Request<Bitmap> {
         BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
         Bitmap bitmap = null;
         if (mMaxWidth == 0 && mMaxHeight == 0) {
+            Log.d("img", "doParse: width: " + mMaxWidth + " height: " + mMaxHeight);
             decodeOptions.inPreferredConfig = mDecodeConfig;
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, decodeOptions);
         } else {
@@ -225,6 +227,10 @@ public class ImageRequest extends Request<Bitmap> {
         while ((n * 2) <= ratio) {
             n *= 2;
         }
+
+        Log.d("img", "findBestSampleSize: " +
+                String.format("actualWidth=%d, actualHeight=%d, desiredWidth=%d, desiredHeight=%d, inSampleSize=%f"
+                        , actualWidth, actualHeight, desiredWidth, desiredHeight, n));
 
         return (int) n;
     }
