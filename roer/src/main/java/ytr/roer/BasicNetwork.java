@@ -2,6 +2,7 @@ package ytr.roer;
 
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -84,8 +85,8 @@ public class BasicNetwork implements Network {
                 // Handle cache validation.
                 // 304 NOT MODIFY 服务器资源没有发生改变
                 if (statusCode == HttpStatus.SC_NOT_MODIFIED) {
-
                     // 304 时, 直接走缓存的请求
+                    Log.d("<304>", "performRequest: NOT_MODIFIDED");
                     CachePolicy.Entry entry = request.getCacheEntry();
                     if (entry == null) {
                         return new NetworkResponse(HttpStatus.SC_NOT_MODIFIED, null,

@@ -120,11 +120,13 @@ public class Roer {
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 if (response.getBitmap() != null) {
                     if (TextUtils.equals(response.getRequestUrl(), ((String) view.getTag()))){
-                        L.e("Tag is difference, cancel request");
                         view.setImageBitmap(response.getBitmap());
                     }
+                    L.e("Tag is difference, cancel request");
                 } else if (defaultImageResId != 0) {
                     view.setImageResource(defaultImageResId);
+                } else {
+                    view.setImageBitmap(null);
                 }
             }
         };

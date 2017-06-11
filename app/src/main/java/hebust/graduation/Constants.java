@@ -47,12 +47,8 @@ public class Constants {
 
     public static String[] IMAGE_URLS = new String[]{
             "http://b.hiphotos.baidu.com/zhidao/pic/item/a6efce1b9d16fdfafee0cfb5b68f8c5495ee7bd8.jpg",
-            "http://pic47.nipic.com/20140830/7487939_180041822000_2.jpg",
-            "http://pic41.nipic.com/20140518/4135003_102912523000_2.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496515403689&di=c73e5b3625866d63692e6f0fcb554194&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201312%2F05%2F20131205172506_4jXjY.jpeg",
             "http://h.hiphotos.baidu.com/image/pic/item/3b87e950352ac65c0f1f6e9efff2b21192138ac0.jpg",
-            "http://pic42.nipic.com/20140618/9448607_210533564001_2.jpg",
-            "http://pic10.nipic.com/20101027/3578782_201643041706_2.jpg",
             "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2104380944,3853327462&fm=23&gp=0.jpg",
             "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496515488940&di=e5ae3579cc65450bc6ce03950ba46957&imgtype=0&src=http%3A%2F%2Fbook.img.ireader.com%2Fgroup6%2FM00%2F54%2F72%2FCmQUNlYBTGiEEInvAAAAAKa2vB0568809414.jpg",
             "https://cdn.pixabay.com/photo/2017/05/24/11/40/neuschwanstein-castle-2340327__340.jpg",

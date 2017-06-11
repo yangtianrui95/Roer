@@ -12,6 +12,7 @@ import ytr.roer.RoerConfiguration;
 public class App extends Application {
 
     private static Handler sHandler;
+    private static Context sContext;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -23,12 +24,13 @@ public class App extends Application {
         super.onCreate();
         sHandler = new Handler(Looper.getMainLooper());
         initRoer();
+        sContext = getApplicationContext();
     }
 
     private void initRoer() {
         final RoerConfiguration.RoerConfigurationBuilder builder = new RoerConfiguration.RoerConfigurationBuilder();
         final RoerConfiguration configuration = builder.httpStack(new OkHttpStack())
-                .defaultImageResId(R.drawable.img_default).build();
+                .build();
 
         Roer.getInstance().adjustConfiguration(configuration);
     }
@@ -36,4 +38,9 @@ public class App extends Application {
     public static Handler getHandler() {
         return sHandler;
     }
+
+    public static Context getContext(){
+        return sContext;
+    }
+
 }
